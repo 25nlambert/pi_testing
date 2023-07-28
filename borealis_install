@@ -1,0 +1,58 @@
+#!bin/bash
+
+echo -e "Please enter the MAC address of your ground station laptop xx:xx:xx:xx:xx:xx\n"
+read mac
+
+echo -e "Please enter the IP address of your ground station laptop xx:xx:xx:xx\n"
+read ip
+
+sudo apt update
+
+sudo apt -y upgrade
+
+command5_output=$(git clone https://github.com/25nlambert/BOREALIS_Cam.git)
+echo "$command5_output"
+
+sudo dpkg -i BOREALIS_Cam/libcamera0_0~git20230707+2783c8d8-1_arm64.deb #Install modified libcamera
+
+#if [[ "$mac" = "" ]]
+#then
+#	mac="8c:0f:6f:6f:dc:e2"
+#fi
+
+#if [[ "$ip" = "" ]]
+#then
+#	ip="192.168.2.23"
+#fi
+
+sudo arp -S $ip $mac #Set ARP mac address for ground laptop
+
+sudo systemctl enable ssh #Enable SSH
+sudo systemctl start ssh
+
+sudo systemctl stop cups.service cups-browsed.service bluetooth.service hciuart.service #Turn off unnecessary services
+sudo systemctl disable cups.service cups-browsed.service bluetooth.service hciuart.service
+sudo systemctl mask bluetooth.service hciuart.service
+
+sudo apt purge avahi-daemon modemmanager pipwire-bin packagekit pipewire libnss-mdns cups cups-browsed #Delete unnecessary processes
+
+sudo apt install -y vim vim-runtime vim-common #Install Vim because we can
+
+sudo apt install -y tcpdump #So I can take a network dump
+
+sudo cp BOREALIS_Cam/config.txt /boot/config.txt #Replace config file with camera one
+
+sudo cp BOREALIS_Cam/dhcpcd.conf /etc/dhcpcd.conf #Replace dhcp file with working one for static IP
+
+sudo cp BOREALIS_Cam/.bashrc /home/pi/.bashrc #Replace shell config
+
+sudo cp BOREALIS_Cam/BOREALIS_CAM.service /etc/systemd/system #Copy service file
+
+sudo chmod +x /home/pi/BOREALIS_Cam/start_stream
+sudo chmod +x /home/pi/BOREALIS_Cam/edit_stream
+
+sudo systemctl enable BOREALIS_CAM.service
+
+sudo apt autoremove -y
+
+sudo reboot
