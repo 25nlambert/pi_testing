@@ -9,12 +9,14 @@ read ip
 command5_output=$(git clone https://github.com/25nlambert/BOREALIS_Cam.git)
 echo "$command5_output"
 
-#if [[ "$mac" = "" ]]
-#then
-#	mac="8c:0f:6f:6f:dc:e2"
-#fi
+if [[ "$mac" = "" ]]
+then
+	mac="8c:0f:6f:6f:dc:e2"
+fi
 
-#if [[ "$ip" = "" ]]
-#then
-#	ip="192.168.2.23"
-#fi
+if [[ "$ip" = "" ]]
+then
+	ip="192.168.2.23"
+fi
+
+echo 
