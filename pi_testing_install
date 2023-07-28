@@ -1,0 +1,27 @@
+#!bin/bash
+
+echo -e "Please enter the MAC address of your ground station laptop xx:xx:xx:xx:xx:xx\n"
+read mac
+
+echo -e "Please enter the IP address of your ground station laptop xx:xx:xx:xx\n"
+read ip
+
+command5_output=$(git clone https://github.com/25nlambert/BOREALIS_Cam.git)
+echo "$command5_output"
+
+#if [[ "$mac" = "" ]]
+#then
+#	mac="8c:0f:6f:6f:dc:e2"
+#fi
+
+#if [[ "$ip" = "" ]]
+#then
+#	ip="192.168.2.23"
+#fi
+
+sudo apt install -y vim vim-runtime vim-common #Install Vim because we can
+
+sudo apt install -y tcpdump #So I can take a network dump
+
+sudo cp BOREALIS_Cam/.bashrc /home/pi/.bashrc #Replace shell config
+
