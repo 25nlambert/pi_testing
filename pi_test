@@ -6,8 +6,8 @@ read mac
 echo -e "Please enter the IP address of your ground station laptop xx:xx:xx:xx\n"
 read ip
 
-command5_output=$(git clone https://github.com/25nlambert/BOREALIS_Cam.git)
-echo "$command5_output"
+#command5_output=$(git clone https://github.com/25nlambert/BOREALIS_Cam.git)
+#echo "$command5_output"
 
 if [[ "$mac" = "" ]]
 then
@@ -19,4 +19,11 @@ then
 	ip="192.168.2.23"
 fi
 
-echo 
+echo -e "With n\n"
+read ipo
+
+echo "Without n"
+read ipn
+
+echo "$ipo"
+echo "$ipn"
